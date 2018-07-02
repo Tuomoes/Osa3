@@ -64,6 +64,18 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
+    
+    let errorStr = ''
+    const body = req.body
+
+    if (!body.name) { errorStr = errorStr + 'Person name is missing. '}
+    if (!body.number) { errorStr = errorStr + 'Person number is missing. '}
+    if (persons.filter(person => person.name === body.name).length > 0) { errorStr = errorStr + 'Person name must be unque. '}
+
+    if (errorStr != '') {
+        return res.status(400).json({error: errorStr})
+    }
+    
     const person = req.body
     person.id = getRandomInt(0, 9999999)
     persons = persons.concat(person)
