@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())
 
 let persons = [
     {
@@ -61,28 +64,10 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-    const body = req.body
-    console.log(body.name)
-    /** 
-    let errorStr
-
-    if (body.name === undefined) {
-        errorStr = errorStr + 'Name is missing. '
-    if (body.)
-
-    }
-    */
-
-    const person = {
-        name: body.name,
-        number: body.number,
-        id: getRandomInt(0, 9999999)
-    }
-
+    const person = req.body
+    person.id = getRandomInt(0, 9999999)
     persons = persons.concat(person)
-
     res.json(person)
-
 })
 
 const getRandomInt = (min, max) => {
