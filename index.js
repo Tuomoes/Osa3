@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
+const morgan = require('morgan')
 
 app.use(bodyParser.json())
+app.use(morgan('tiny'))
 
 let persons = [
     {
@@ -68,6 +70,7 @@ app.post('/api/persons', (req, res) => {
     let errorStr = ''
     const body = req.body
 
+    //Error checks
     if (!body.name) { errorStr = errorStr + 'Person name is missing. '}
     if (!body.number) { errorStr = errorStr + 'Person number is missing. '}
     if (persons.filter(person => person.name === body.name).length > 0) { errorStr = errorStr + 'Person name must be unque. '}
