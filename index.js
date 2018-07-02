@@ -32,6 +32,7 @@ const app = http.createServer((req, res) => {
 */
 
 
+
 app.get('/', (req, res) => {
     res.send('<h1>Hello! Use .../api/persons to get some phone book data out.</h1>')
 })
@@ -58,6 +59,38 @@ app.delete('/api/persons/:id', (req, res) => {
 
     res.status(204).end()
 })
+
+app.post('/api/persons', (req, res) => {
+    const body = req.body
+    console.log(body.name)
+    /** 
+    let errorStr
+
+    if (body.name === undefined) {
+        errorStr = errorStr + 'Name is missing. '
+    if (body.)
+
+    }
+    */
+
+    const person = {
+        name: body.name,
+        number: body.number,
+        id: getRandomInt(0, 9999999)
+    }
+
+    persons = persons.concat(person)
+
+    res.json(person)
+
+})
+
+const getRandomInt = (min, max) => {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+
+    return Math.floor(Math.random() * (max - min)) + min
+}
 
 app.get('/info', (req, res) => {
     res.send('<p>puhelinluettelossa ' + persons.length + ' henkilön tiedot</p><p>' + new Date() + '</p>')
