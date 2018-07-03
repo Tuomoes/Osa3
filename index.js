@@ -109,5 +109,5 @@ app.get('/info', (req, res) => {
     res.send('<p>puhelinluettelossa ' + persons.length + ' henkilön tiedot</p><p>' + new Date() + '</p>')
 })
 
-const port = 3001
-app.listen(port, () => { console.log('Server is running on port', port) })
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => { console.log('Server is running on port', PORT) })
