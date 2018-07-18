@@ -3,6 +3,12 @@ const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
+
+//const mongoose = require('mongoose')
+
+//const url = 'mongodb://puhlu:sala123@ds155218.mlab.com:55218/puhlumongodb'
+
 
 app.use(express.static('build'))
 app.use(cors())
@@ -57,7 +63,12 @@ app.get('/', (req, res) => {
 
 
 app.get('/api/persons', (req, res) => {
-    res.json(persons)
+    //res.json(persons)
+    Person
+        .find({})
+        .then(persons => {
+            res.json(persons)
+        })
 })
 
 app.get('/api/persons/:id', (req, res) => {
@@ -92,9 +103,20 @@ app.post('/api/persons', (req, res) => {
         return res.status(400).json({error: errorStr})
     }
     
-    const person = req.body
-    person.id = getRandomInt(0, 9999999)
-    persons = persons.concat(person)
+    //const person = req.body
+    const person = new Person({
+        name: body.name,
+        number: body.number
+    })
+
+    person
+        .save()
+        .then(savedNote => {
+            response.json(formatNote)
+        })
+
+    //person.id = getRandomInt(0, 9999999)
+    //persons = persons.concat(person)
     res.json(person)
 })
 
