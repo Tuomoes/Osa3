@@ -132,9 +132,23 @@ app.post('/api/persons', (req, res) => {
             console.log(error)
         })
 
-    //person.id = getRandomInt(0, 9999999)
-    //persons = persons.concat(person)
-    //res.json(person)
+})
+
+app.put('/api/persons/:id', (req, res) => {
+    const person = {
+        name: req.body.name,
+        number: req.body.number
+    }
+
+    Person
+        .findByIdAndUpdate(req.params.id, person, { new: true })
+        .then(updatedPerson => {
+            res.json(formatPerson(updatedPerson))
+        })
+        .catch(error => {
+            console.log(error)
+            response.status(400).send({error: 'malformatted id'})
+        })
 })
 
 const getRandomInt = (min, max) => {
