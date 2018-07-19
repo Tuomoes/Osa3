@@ -134,9 +134,8 @@ app.post('/api/persons', (req, res) => {
     Person
         .find({name: body.name})
         .then(result => {
-            if (result) {
-                res.status(400).send({error: 'name already exists'})              
-            } else {
+            if (result.length === 0) {
+                console.log("if was true")
                 person
                     .save()
                     .then(savedPerson => {
@@ -145,6 +144,10 @@ app.post('/api/persons', (req, res) => {
                     .catch(error => {
                         console.log(error)
                     })
+            } else {
+                console.log("if was not true")
+                res.status(400).send({error: 'name already exists'})        
+
             }
         })
         .catch(error => {
