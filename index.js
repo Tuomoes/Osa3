@@ -26,24 +26,24 @@ app.use(morgan((tokens, req, res) => {
 
 let persons = [
     {
-        name: "Arto Hellas",
-        number: "040-12542",
+        name: 'Arto Hellas',
+        number: '040-12542',
         id: 1
     },
     {
-        name: "Matti Tienari",
-        number: "040-234567",
+        name: 'Matti Tienari',
+        number: '040-234567',
     
         id: 2
     },
     {
-        name: "Arto Järvinen",
-        number: "040-98765",
+        name: 'Arto Järvinen',
+        number: '040-98765',
         id: 3
     },
     {
-        name: "Lea Kutvonen",
-        number: "040-356893",
+        name: 'Lea Kutvonen',
+        number: '040-356893',
         id: 4
     }
 ]
@@ -75,7 +75,7 @@ app.get('/api/persons', (req, res) => {
         .then(persons => {
             res.json(persons.map(formatPerson))
             //line below related to unfinished subtask 3.14*
-           // res.json(persons.map(Person.format))
+            // res.json(persons.map(Person.format))
         })
 })
 
@@ -104,10 +104,10 @@ app.delete('/api/persons/:id', (req, res) => {
     //persons = persons.filter(person => person.id !== id)
     Person
         .findByIdAndRemove(req.params.id)
-        .then(result => {
+        .then(() => {
             res.status(204).end()
         })
-        .catch(error => {
+        .catch(() => {
             res.status(400).send({ error: 'malformatted id' })
         })
 })
@@ -135,7 +135,7 @@ app.post('/api/persons', (req, res) => {
         .find({name: body.name})
         .then(result => {
             if (result.length === 0) {
-                console.log("if was true")
+                console.log('if was true')
                 person
                     .save()
                     .then(savedPerson => {
@@ -145,7 +145,7 @@ app.post('/api/persons', (req, res) => {
                         console.log(error)
                     })
             } else {
-                console.log("if was not true")
+                console.log('if was not true')
                 res.status(400).send({error: 'name already exists'})        
 
             }
@@ -169,16 +169,18 @@ app.put('/api/persons/:id', (req, res) => {
         })
         .catch(error => {
             console.log(error)
-            response.status(400).send({error: 'malformatted id'})
+            res.status(400).send({error: 'malformatted id'})
         })
 })
 
+/**
 const getRandomInt = (min, max) => {
     min = Math.ceil(min)
     max = Math.floor(max)
 
     return Math.floor(Math.random() * (max - min)) + min
 }
+*/
 
 app.get('/info', (req, res) => {
     res.send('<p>puhelinluettelossa ' + persons.length + ' henkilön tiedot</p><p>' + new Date() + '</p>')

@@ -19,8 +19,8 @@ const personSchema = new Schema({
 //does not work... :'(
 personSchema.statics.format = function(person) {
     return this.map({
-            id: person._id
-        })
+        id: person._id
+    })
 }
 
 const Person = mongoose.model('Person', personSchema)
