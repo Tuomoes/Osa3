@@ -54,7 +54,13 @@ const app = http.createServer((req, res) => {
     res.end(JSON.stringify(persons))
 })
 */
-
+const formatPerson = (person) => {
+    return {
+        name: person.name,
+        number: person.number,
+        id: person._id
+    }
+}
 
 
 app.get('/', (req, res) => {
@@ -67,7 +73,9 @@ app.get('/api/persons', (req, res) => {
     Person
         .find({})
         .then(persons => {
-            res.json(persons)
+            res.json(persons.map(formatPerson))
+            //line below related to unfinished subtask 3.14*
+           // res.json(persons.map(Person.format))
         })
 })
 
@@ -111,13 +119,16 @@ app.post('/api/persons', (req, res) => {
 
     person
         .save()
-        .then(savedNote => {
-            response.json(formatNote)
+        .then(savedPerson => {
+            res.json(formatPerson(savedPerson))
+        })
+        .catch(error => {
+            console.log(error)
         })
 
     //person.id = getRandomInt(0, 9999999)
     //persons = persons.concat(person)
-    res.json(person)
+    //res.json(person)
 })
 
 const getRandomInt = (min, max) => {
